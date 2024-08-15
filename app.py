@@ -7,15 +7,13 @@ import os
 
 from camera import Camera
 
-CAMERA_ID = "cam_1"
-
-camera = Camera()
+CAMERA_ID = "cam_2"
 
 is_capturing_points = False
 
 client = mqtt.Client()
 
-dev = True
+dev = False
 
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
@@ -24,14 +22,15 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     global is_capturing_points
+    camera = Camera.instance()
     if msg.topic == "tb-tracker/is_capturing_points" and json.loads(msg.payload.decode()) != is_capturing_points:
         is_capturing_points = json.loads(msg.payload.decode())
         camera.set_is_capturing_points(is_capturing_points)
 
 def send_points(points, timestamp):
     
-    if points == [[None, None]]:
-        points = []
+    # if points == [[None, None]]:
+    #     points = []
 
     print(f"Sending points: {points}")
     topic = f"tb-tracker/{CAMERA_ID}/points"
@@ -43,11 +42,12 @@ def send_points(points, timestamp):
     client.publish(topic, json.dumps(payload))
 
 if __name__ == "__main__":
-
+    camera = Camera.instance()
+    
     client.on_connect = on_connect
     client.on_message = on_message
 
-    client.connect("localhost", 1883, 60)
+    client.connect("172.16.0.102", 1883, 60)
 
     client.loop_start()
     while True:

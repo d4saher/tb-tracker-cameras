@@ -18,7 +18,7 @@ class Camera:
 
         self.camera_params = json.load(f)
 
-        self.cap = cv.VideoCapture(2)
+        self.cap = cv.VideoCapture(0)
 
         self.is_capturing_points = False
 

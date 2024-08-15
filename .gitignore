@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 
 camera_app-venv/
+
+init_tb-tracker.sh
