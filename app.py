@@ -9,7 +9,7 @@ import configparser
 from camera import Camera
 
 config = configparser.ConfigParser()
-config_file = "camera_config.ini"
+config_file = "/home/testbed/tb-tracker/tb-tracker-cameras/camera_config.ini"
 
 if os.path.exists(config_file):
     config.read(config_file)
@@ -18,7 +18,11 @@ else:
 
 CAMERA_ID = config.get("camera", "id", fallback=None)
 
+print(f"Camera ID: {CAMERA_ID}")
+
 client = mqtt.Client()
+
+is_capturing_points = False
 
 dev = False
 
@@ -39,8 +43,9 @@ def send_points(points, timestamp):
     if points == []:
         points = [[None, None]]
 
-    print(f"Sending points: {points}")
+    #print(f"Sending points: {points}")
     topic = f"tb-tracker/{CAMERA_ID}/points"
+    #print(f"Topic: {topic}")
     payload = {
         "timestamp": timestamp,
         "points": points
@@ -59,7 +64,7 @@ if __name__ == "__main__":
     client.loop_start()
     while True:
         frame, image_points, timestamp = camera.get_frame()
-        print(image_points)
+        #print(image_points)
         
         send_points(image_points, timestamp)
 

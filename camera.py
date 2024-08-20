@@ -24,6 +24,14 @@ class Camera:
 
         self.is_capturing_points = False
 
+    def get_is_capturing_points(self):
+        """
+        Get whether the camera is capturing points
+
+        :rtype: bool
+        """
+        return self.is_capturing_points
+
     def set_is_capturing_points(self, is_capturing_points):
         """
         Set whether the camera is capturing points
@@ -48,7 +56,6 @@ class Camera:
         frame, timestamp = self._camera_read()
         image_points = []
         if self.is_capturing_points:
-            print("Capturing points")
             frame, image_points = self._find_dot(frame)
 
         return frame, image_points, timestamp
