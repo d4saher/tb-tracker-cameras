@@ -20,9 +20,12 @@ class Camera:
 
         self.camera_params = json.load(f)
 
-        self.cam = psCamera(fps=90, resolution=psCamera.RES_SMALL, gain=15, exposure=100)
-
         self.is_capturing_points = False
+
+        self.gain = 0
+        self.exposure = 100
+
+        self.cam = psCamera(fps=90, resolution=psCamera.RES_SMALL, gain=self.gain, exposure=self.exposure)
 
     def get_is_capturing_points(self):
         """
@@ -31,6 +34,14 @@ class Camera:
         :rtype: bool
         """
         return self.is_capturing_points
+
+    def get_gain(self):
+        """
+        Get the camera gain
+
+        :rtype: int
+        """
+        return self.gain
 
     def set_is_capturing_points(self, is_capturing_points):
         """
@@ -41,6 +52,34 @@ class Camera:
         """
         self.is_capturing_points = is_capturing_points
 
+    def set_gain(self, gain):
+        """
+        Set the camera gain
+
+        :param gain: The camera gain
+        :type gain: int
+        """
+        self.gain = gain
+        self.cam.gain = gain
+
+    def get_exposure(self):
+        """
+        Get the camera exposure
+
+        :rtype: int
+        """
+        return self.exposure
+
+    def set_exposure(self, exposure):
+        """
+        Set the camera exposure
+
+        :param exposure: The camera exposure
+        :type exposure: int
+        """
+        self.exposure = exposure
+        self.cam.exposure = exposure
+        
     def _camera_read(self):
         frame, ts = self.cam.read()
         processed_frame = self.process_frame(frame)

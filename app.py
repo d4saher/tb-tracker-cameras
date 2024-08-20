@@ -30,6 +30,8 @@ def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
 
     client.subscribe("tb-tracker/is_capturing_points")
+    client.subscribe("tb-tracker/set_gain")
+    client.subscribe("tb-tracker/set_exposure")
 
 def on_message(client, userdata, msg):
     global is_capturing_points
@@ -37,6 +39,13 @@ def on_message(client, userdata, msg):
     if msg.topic == "tb-tracker/is_capturing_points" and json.loads(msg.payload.decode()) != is_capturing_points:
         is_capturing_points = json.loads(msg.payload.decode())
         camera.set_is_capturing_points(is_capturing_points)
+    elif msg.topic == "tb-tracker/set_gain":
+        gain = json.loads(msg.payload.decode())
+        gain = int(np.interp(gain, [0, 100], [0, 63]))
+        camera.set_gain(gain)
+    elif msg.topic == "tb-tracker/set_exposure":
+        exposure = json.loads(msg.payload.decode())
+        camera.set_exposure(exposure)
 
 def send_points(points, timestamp):
     
