@@ -4,6 +4,8 @@ import os
 import json
 import time
 
+from pseyepy import Camera
+
 from Singleton import Singleton
 
 @Singleton
@@ -18,7 +20,7 @@ class Camera:
 
         self.camera_params = json.load(f)
 
-        self.cap = cv.VideoCapture(0)
+        self.cam = Camera(fps=90, resolution=Camera.RES_SMALL, gain=15, exposure=100)
 
         self.is_capturing_points = False
 
@@ -34,12 +36,11 @@ class Camera:
         self.is_capturing_points = is_capturing_points
 
     def _camera_read(self):
-        ret, frame = self.cap.read()
-        processed_frame = None
-        if ret:
-            processed_frame = self.process_frame(frame)
-        return processed_frame, time.time()
+        frame, ts = self.cam.read()
+        processed_frame = self.process_frame(frame)
 
+        return processed_frame, ts
+    
     def get_frame(self):
         """
         Get the current frame from the camera
