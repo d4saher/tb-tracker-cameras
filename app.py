@@ -20,7 +20,7 @@ CAMERA_ID = config.get("camera", "id", fallback=None)
 
 client = mqtt.Client()
 
-dev = True
+dev = False
 
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
