@@ -18,11 +18,11 @@ else:
 
 CAMERA_ID = config.get("camera", "id", fallback=None)
 
-is_capturing_points = False
+is_capturing_points = True
 
 client = mqtt.Client()
 
-dev = False
+dev = True
 
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")

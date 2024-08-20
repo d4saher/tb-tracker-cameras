@@ -164,3 +164,7 @@ cython_debug/
 camera_app-venv/
 
 init_tb-tracker.sh
+
+venv-cameras/
+
+camera_config.ini

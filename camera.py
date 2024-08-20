@@ -4,7 +4,7 @@ import os
 import json
 import time
 
-from pseyepy import Camera
+from pseyepy import Camera as psCamera
 
 from Singleton import Singleton
 
@@ -20,11 +20,11 @@ class Camera:
 
         self.camera_params = json.load(f)
 
-        self.cam = Camera(fps=90, resolution=Camera.RES_SMALL, gain=15, exposure=100)
+        self.cam = psCamera(fps=90, resolution=psCamera.RES_SMALL, gain=15, exposure=100)
 
         self.is_capturing_points = False
 
-        self.dev = True
+        self.dev = False
 
     def set_is_capturing_points(self, is_capturing_points):
         """
@@ -50,6 +50,7 @@ class Camera:
         frame, timestamp = self._camera_read()
         image_points = []
         if self.is_capturing_points:
+            print("Capturing points")
             frame, image_points = self._find_dot(frame)
 
         return frame, image_points, timestamp
