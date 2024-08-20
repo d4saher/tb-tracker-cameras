@@ -168,3 +168,5 @@ init_tb-tracker.sh
 venv-cameras/
 
 camera_config.ini
+
+camera-params.json
