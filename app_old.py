@@ -4,19 +4,10 @@ import time
 import paho.mqtt.client as mqtt
 import json
 import os
-import configparser
 
 from camera import Camera
 
-config = configparser.ConfigParser()
-config_file = "camera_config.ini"
-
-if os.path.exists(config_file):
-    config.read(config_file)
-else:
-    print(f"Config file {config_file} doesn't exist.")
-
-CAMERA_ID = config.get("camera", "id", fallback=None)
+CAMERA_ID = "cam_2"
 
 is_capturing_points = False
 
@@ -38,8 +29,8 @@ def on_message(client, userdata, msg):
 
 def send_points(points, timestamp):
     
-    if points == []:
-        points = [[None, None]]
+    # if points == [[None, None]]:
+    #     points = []
 
     print(f"Sending points: {points}")
     topic = f"tb-tracker/{CAMERA_ID}/points"
