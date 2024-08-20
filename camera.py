@@ -22,7 +22,7 @@ class Camera:
 
         self.cam = psCamera(fps=90, resolution=psCamera.RES_SMALL, gain=15, exposure=100)
 
-        self.is_capturing_points = True
+        self.is_capturing_points = False
 
     def set_is_capturing_points(self, is_capturing_points):
         """
