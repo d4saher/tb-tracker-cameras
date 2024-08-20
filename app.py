@@ -18,8 +18,6 @@ else:
 
 CAMERA_ID = config.get("camera", "id", fallback=None)
 
-is_capturing_points = True
-
 client = mqtt.Client()
 
 dev = True
